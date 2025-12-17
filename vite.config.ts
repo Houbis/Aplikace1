@@ -5,9 +5,9 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   define: {
-    // Vercel injects env vars at build time, but for client-side usage we often need to map them.
-    // However, Vite exposes import.meta.env.VITE_... by default.
-    // Since the app code uses process.env.API_KEY, we provide a compatibility layer.
-    'process.env': process.env
+    // Explicitly replace process.env.API_KEY with the string value from build environment
+    'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
+    // Mock the rest of process.env to avoid "process is not defined" errors in browser
+    'process.env': {}
   }
 });
